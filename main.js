@@ -1,2 +1,3 @@
 require('aframe');
-require('../index.js');
+require('./js/aframe-animation-component.min');
+require('../index');
