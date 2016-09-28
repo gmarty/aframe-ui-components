@@ -1,22 +1,21 @@
 {
-  "name": "aframe-example-component",
-  "version": "1.0.0",
-  "description": "Example component for A-Frame.",
+  "name": "aframe-ui-components",
+  "version": "1.0.1",
+  "description": "UI components for A-Frame.",
   "main": "index.js",
   "scripts": {
     "build": "browserify examples/main.js -o examples/build.js",
     "dev": "budo examples/main.js:build.js --dir examples --port 8000 --live --open",
-    "dist": "webpack index.js dist/aframe-example-component.js && webpack -p index.js dist/aframe-example-component.min.js",
+    "dist": "webpack index.js dist/aframe-ui-components.js && webpack -p index.js dist/aframe-ui-components.min.js",
     "lint": "semistandard -v | snazzy",
     "postpublish": "npm run dist",
     "preghpages": "npm run build && shx rm -rf gh-pages && shx mkdir gh-pages && shx cp -r examples/* gh-pages",
     "ghpages": "npm run preghpages && ghpages -p gh-pages",
-    "start": "npm run dev",
-    "unboil": "node scripts/unboil.js"
+    "start": "npm run dev"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ngokevin/aframe-component-boilerplate.git"
+    "url": "git+https://github.com/gmarty/aframe-ui-components.git"
   },
   "keywords": [
     "aframe",
@@ -26,14 +25,14 @@
     "mozvr",
     "webvr"
   ],
-  "author": "Kevin Ngo <me@ngokevin.com>",
+  "author": "G.C. Marty <edo999@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ngokevin/aframe-component-boilerplate/issues"
+    "url": "https://github.com/gmarty/aframe-ui-components/issues"
   },
-  "homepage": "https://github.com/ngokevin/aframe-component-boilerplate#readme",
+  "homepage": "https://github.com/gmarty/aframe-ui-components#readme",
   "devDependencies": {
-    "aframe": "^0.2.0",
+    "aframe": "^0.3.0",
     "browserify": "^13.0.0",
     "browserify-css": "^0.9.1",
     "budo": "^8.2.2",
@@ -51,5 +50,9 @@
       "examples/build.js",
       "dist/**"
     ]
-  }
+  },
+  "directories": {
+    "example": "examples"
+  },
+  "dependencies": {}
 }
