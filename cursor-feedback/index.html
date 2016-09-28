@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>A-Frame UI Components - Cursor Feedback</title>
+<script src="../build.js"></script>
+<script src="../js/aframe-animation-component.min.js"></script>
+</head>
+<body>
+<a-scene debug>
+  <a-plane color="grey" height="100" width="100" rotation="-90 0 0"></a-plane>
+
+  <a-image color="blue"
+           position="0 2.5 -8.15"
+           data-interactive="true">
+    <a-animation attribute="scale"
+                 direction="alternate"
+                 begin="click" repeat="0" to="2 2 0"></a-animation>
+  </a-image>
+
+  <a-image color="red"
+           position="-2 2 -7.8"
+           rotation="0 21 0"
+           data-interactive="true">
+    <a-animation attribute="scale"
+                 direction="alternate"
+                 begin="click" repeat="0" to="2 2 0"></a-animation>
+  </a-image>
+
+  <a-image color="yellow"
+           position="2 2 -7.8"
+           rotation="0 -21 0"
+           data-interactive="true">
+    <a-animation attribute="scale"
+                 direction="alternate"
+                 begin="click" repeat="0" to="2 2 0"></a-animation>
+  </a-image>
+
+  <a-cylinder color="pink" height="5" radius="8.25"
+              side="double"
+              open-ended="true"
+              position="0 2.5 0"></a-cylinder>
+
+  <a-sky color="lightblue"></a-sky>
+
+  <a-camera>
+    <a-cursor color="#fff"
+              fuse="false"
+              objects="[data-interactive='true']"
+              cursor-feedback></a-cursor>
+  </a-camera>
+</a-scene>
+</body>
+</html>
