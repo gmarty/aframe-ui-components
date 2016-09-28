@@ -1,0 +1,20 @@
+<html>
+<head>
+<title>A-Frame UI Components - Target Indicator</title>
+<script src="../build.js"></script>
+</head>
+<body>
+<a-scene debug>
+  <a-box id="box"
+         position="2 3 -10"></a-box>
+
+  <a-plane color="goldenrod"
+           width="50" height="50" depth="50"
+           position="0 -5 0"
+           rotation="-90 0 0"></a-plane>
+  <a-sky color="lightblue"></a-sky>
+
+  <a-camera target-indicator="target: #box;"></a-camera>
+</a-scene>
+</body>
+</html>
