@@ -1,6 +1,6 @@
 {
   "name": "aframe-ui-components",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "UI components for A-Frame.",
   "main": "index.js",
   "scripts": {

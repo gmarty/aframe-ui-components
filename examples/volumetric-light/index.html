@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>A-Frame UI Components - Volumetric Light</title>
+<script src="../build.js"></script>
+</head>
+<body>
+<a-scene debug>
+  <a-cone height="5"
+          radius-top="0.5"
+          radius-bottom="1.5"
+          open-ended="true"
+          position="0 2.5 -5"
+          opacity="0"
+          material="shader: volumetric-light; spotPosition: 0 2.5 -5;"></a-cone>
+  <a-light type="spot" color="#fff" angle="35"
+           position="0 2.5 -5"
+           target="#box"></a-light>
+
+  <a-box position="-3 0.5 -5" color="yellow"></a-box>
+  <a-box id="box" position="0 0.5 -5" color="blue"></a-box>
+  <a-box position="3 0.5 -5" color="red"></a-box>
+
+  <a-light type="ambient" color="#bbb"></a-light>
+  <a-light type="directional" color="#fff" intensity="0.6" position="-0.5 1 1"></a-light>
+
+  <a-plane color="#000"
+           width="50" height="50" depth="50"
+           position="0 0 -5"
+           rotation="-90 0 0"></a-plane>
+  <a-sky color="#000"></a-sky>
+</a-scene>
+</body>
+</html>

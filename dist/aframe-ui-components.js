@@ -46,6 +46,7 @@
 
 	__webpack_require__(1);
 	__webpack_require__(2);
+	__webpack_require__(3);
 
 
 /***/ },
@@ -142,7 +143,7 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	/* global AFRAME */
+	/* global AFRAME, THREE */
 
 	if (typeof AFRAME === 'undefined') {
 	  throw new Error('Component attempted to register before AFRAME was available.');
@@ -168,7 +169,7 @@
 	    }
 
 	    const camera = this.el;
-	    const frustum = new THREE.Frustum;
+	    const frustum = new THREE.Frustum();
 	    const arrow = document.createElement('a-image');
 
 	    arrow.setAttribute('src', 'data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22512%22%20height%3D%22512%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cpath%20d%3D%22M256.333%20428q9%200%2015-6L392%20301.333%20422.333%20271q6-6%206-15t-6-15L392%20210.667%20271.333%2090q-6-6-15-6t-15%206L211%20120.333q-6%206-6%2015t6%2015l63%2063H106.667q-8.667%200-15%206.334-6.334%206.333-6.334%2015v42.666q0%208.667%206.334%2015%206.333%206.334%2015%206.334H274l-63%2063q-6.333%206.333-6.333%2015%200%208.666%206.333%2015L241.333%20422q6%206%2015%206zM256%20512q-69.667%200-128.5-34.333-58.833-34.334-93.167-93.167Q0%20325.667%200%20256t34.333-128.5Q68.667%2068.667%20127.5%2034.333%20186.333%200%20256%200t128.5%2034.333q58.833%2034.334%2093.167%2093.167Q512%20186.333%20512%20256t-34.333%20128.5q-34.334%2058.833-93.167%2093.167Q325.667%20512%20256%20512z%22%2F%3E%3C%2Fsvg%3E');
@@ -235,6 +236,109 @@
 	      z: THREE.Math.radToDeg(angle)
 	    }));
 	  },
+	});
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	/* global AFRAME, THREE */
+
+	const propertyToThreeMapping = {
+	  number: 'f',
+	  time: 'f',
+	  vec4: 'v4',
+	  vec3: 'v3',
+	  vec2: 'v2',
+	  color: 'v3'
+	};
+
+	AFRAME.registerShader('volumetric-light', {
+	  schema: {
+	    attenuation: { type: 'number', default: 5.0, is: 'uniform' },
+	    anglePower: { type: 'number', default: 1.2, is: 'uniform' },
+	    spotPosition: { type: 'vec3', default: '0 0 0', is: 'uniform' },
+	    lightColor: { type: 'vec3', default: '1 1 1', is: 'uniform' }
+	  },
+
+	  init: function(data) {
+	    this.uniforms = this.initVariables(data, 'uniform');
+
+	    this.material = new THREE.ShaderMaterial({
+	      uniforms: this.uniforms,
+	      vertexShader: this.vertexShader,
+	      fragmentShader: this.fragmentShader,
+	      transparent: true,
+	      depthWrite: false,
+	    });
+	  },
+
+	  initVariables: function(data, type) {
+	    var self = this;
+	    var variables = {};
+	    var schema = this.schema;
+	    var schemaKeys = Object.keys(schema);
+	    schemaKeys.forEach(processSchema);
+	    function processSchema(key) {
+	      if (schema[key].is !== type) {
+	        return;
+	      }
+	      var varType = propertyToThreeMapping[schema[key].type];
+	      var varValue = schema[key].parse(data[key] || schema[key].default);
+	      variables[key] = {
+	        type: varType,
+	        value: self.parseValue(schema[key].type, varValue)
+	      };
+	    }
+
+	    return variables;
+	  },
+
+	  // Adapted from https://github.com/jeromeetienne/threex.volumetricspotlight.
+	  vertexShader: [
+	    'varying vec3 vNormal;',
+	    'varying vec3 vWorldPosition;',
+
+	    'void main(){',
+	    // compute intensity
+	    'vNormal		= normalize( normalMatrix * normal );',
+
+	    'vec4 worldPosition	= modelMatrix * vec4( position, 1.0 );',
+	    'vWorldPosition		= worldPosition.xyz;',
+
+	    // set gl_Position
+	    'gl_Position	= projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
+	    '}',
+	  ].join('\n'),
+
+	  fragmentShader: [
+	    'varying vec3		vNormal;',
+	    'varying vec3		vWorldPosition;',
+
+	    'uniform vec3		lightColor;',
+
+	    'uniform vec3		spotPosition;',
+
+	    'uniform float		attenuation;',
+	    'uniform float		anglePower;',
+
+	    'void main(){',
+	    'float intensity;',
+
+	    // distance attenuation
+	    'intensity	= distance(vWorldPosition, spotPosition)/attenuation;',
+	    'intensity	= 1.0 - clamp(intensity, 0.0, 1.0);',
+
+	    // intensity on angle
+	    'vec3 normal	= vec3(vNormal.x, vNormal.y, abs(vNormal.z));',
+	    'float angleIntensity	= pow( dot(normal, vec3(0.0, 0.0, 1.0)), anglePower );',
+	    'intensity	= intensity * angleIntensity;',
+
+	    // set the final color
+	    'gl_FragColor	= vec4( lightColor, intensity );',
+	    '}',
+	  ].join('\n')
 	});
 
 

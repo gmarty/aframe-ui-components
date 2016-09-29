@@ -6,6 +6,7 @@
 
 * [Cursor Feedback](#cursor-feedback)
 * [Target Indicator](#target-indicator)
+* [Volumetric Light](#volumetric-light)
 
 ## Demo
 
@@ -94,6 +95,54 @@ Install and use by directly including the [browser files](dist).
   </a-scene>
 </body>
 ```
+
+## Volumetric Light
+
+Material for spotlight, ideal to attract the user attention to an object.
+
+### API
+
+| Property     | Description                            | Default Value |
+| ------------ | -------------------------------------- | ------------- |
+| attenuation  | The property of the cursor to animate. | 5             |
+| anglePower   | The duration of the animation in ms.   | 1.2           |
+| spotPosition | Ending value of the property.          | `0 0 0`       |
+| lightColor   | Ending value of the property.          | `1 1 1`       |
+
+### Browser Installation
+
+Install and use by directly including the [browser files](dist).
+
+Create an `<a-cone>` with a `material="shader: volumetric-light;` attribute:
+
+```html
+<head>
+  <title>My A-Frame Scene</title>
+  <script src="https://aframe.io/releases/0.3.0/aframe.min.js"></script>
+  <script src="https://rawgit.com/gmarty/aframe-ui-components/master/dist/aframe-ui-components.min.js"></script>
+</head>
+
+<body>
+  <a-scene>
+    <a-cone height="5"
+            radius-top="0.5"
+            radius-bottom="1.5"
+            open-ended="true"
+            position="0 2.5 -5"
+            material="shader: volumetric-light;"></a-cone>
+  </a-scene>
+</body>
+```
+
+Ideally set the `spotPosition` to the position of the entity.
+
+The `lightColor` attribute requires a Vector3 notation. For example white is
+ '1 1 1'.
+ 
+You'll also probably want to use a `<a-light type="spot"/>` for an improved
+effect.
+
+The original code for this shader can be found at [github.com/jeromeetienne/threex.volumetricspotlight](https://github.com/jeromeetienne/threex.volumetricspotlight).
 
 ## npm Installation
 
