@@ -32,18 +32,18 @@
   },
   "homepage": "https://github.com/gmarty/aframe-ui-components#readme",
   "devDependencies": {
-    "aframe": "^0.3.0",
-    "browserify": "^13.0.0",
-    "browserify-css": "^0.9.1",
-    "budo": "^8.2.2",
-    "ghpages": "^0.0.8",
-    "inquirer": "^1.0.2",
-    "randomcolor": "^0.4.4",
-    "semistandard": "^8.0.0",
-    "shelljs": "^0.7.0",
-    "shx": "^0.1.1",
-    "snazzy": "^4.0.0",
-    "webpack": "^1.13.0"
+    "aframe": "^1.0.4",
+    "browserify": "^16.5.0",
+    "browserify-css": "^0.15.0",
+    "budo": "^11.6.3",
+    "envify": "^4.1.0",
+    "ghpages": "0.0.10",
+    "inquirer": "^7.0.4",
+    "randomcolor": "^0.5.4",
+    "semistandard": "^14.2.0",
+    "shx": "^0.3.2",
+    "snazzy": "^8.0.0",
+    "webpack": "^4.41.6"
   },
   "semistandard": {
     "ignore": [
